@@ -13,7 +13,10 @@ def todo_list(request):
 
 def add_todo(request):
     if request.method == "POST":
-        todo = TodoItem(title=request.POST['title'])
+        todo = TodoItem(
+            title=request.POST['title'],
+            image=request.FILES.get('image')
+        )
         todo.save()
     return render(request, 'todos.html', {"todos": TodoItem.objects.all()})
 
@@ -45,6 +48,8 @@ def edit_todo(request, todo_id):
     if request.method == "POST":
         todo = get_object_or_404(TodoItem, pk=todo_id)
         todo.title = request.POST['title']
+        if 'image' in request.FILES:
+            todo.image = request.FILES['image']
         todo.save()
     return render(request, 'todos.html', {"todos": TodoItem.objects.all()})
 
