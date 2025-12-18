@@ -1,3 +1,23 @@
-demo/db.sqlite3
-env/*
-env
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+env/
+
+# Django stuff
+db.sqlite3
+media/
+staticfiles/
+*.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
