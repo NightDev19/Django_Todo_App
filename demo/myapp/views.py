@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import TodoItem
+import os
 
 
 def home(request):
@@ -49,6 +50,10 @@ def edit_todo(request, todo_id):
         todo = get_object_or_404(TodoItem, pk=todo_id)
         todo.title = request.POST['title']
         if 'image' in request.FILES:
+            # Delete old image if it exists
+            if todo.image:
+                if os.path.isfile(todo.image.path):
+                    os.remove(todo.image.path)
             todo.image = request.FILES['image']
         todo.save()
     return render(request, 'todos.html', {"todos": TodoItem.objects.all()})

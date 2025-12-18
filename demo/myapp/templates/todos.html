@@ -22,18 +22,22 @@
     <!-- TODO LIST -->
     <ul class="list-group mb-4">
         {% for todo in todos %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="flex-grow-1">
-                {% if todo.image %}
-                <div class="mb-2">
-                    <img src="{{ todo.image.url }}" alt="{{ todo.title }}" style="max-width: 200px; max-height: 150px; border-radius: 5px; cursor: pointer;" onclick="openImageModal('{{ todo.image.url }}', '{{ todo.title }}')">
+                <div class="d-flex align-items-center">
+                    {% if todo.image %}
+                    <div class="mr-3">
+                        <img src="{{ todo.image.url }}" alt="{{ todo.title }}" style="max-width: 80px; max-height: 80px; border-radius: 5px; cursor: pointer; object-fit: cover;" onclick="openImageModal('{{ todo.image.url }}', '{{ todo.title }}')">
+                    </div>
+                    {% endif %}
+                    <div>
+                        {% if todo.completed %}
+                        <del class="text-muted">{{ todo.title }}</del>
+                        {% else %}
+                        <span>{{ todo.title }}</span>
+                        {% endif %}
+                    </div>
                 </div>
-                {% endif %}
-                {% if todo.completed %}
-                <del class="text-muted">{{ todo.title }}</del>
-                {% else %}
-                <span>{{ todo.title }}</span>
-                {% endif %}
             </div>
 
             <div class="d-flex ml-2" style="gap: 5px;">
