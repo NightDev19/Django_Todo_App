@@ -96,12 +96,80 @@
     </ul>
 
     <!-- CLEAR COMPLETED -->
-    <div class="text-center">
+    <div class="text-center mb-4">
         <form method="POST" action="{% url 'clear_completed' %}">
             {% csrf_token %}
             <button class="btn btn-outline-danger">Clear Completed Todos</button>
         </form>
     </div>
+
+<!-- PAGINATION -->
+{% if todos.has_other_pages %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+
+        <!-- Previous -->
+        {% if todos.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ todos.previous_page_number }}">&lt;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&lt;</span>
+        </li>
+        {% endif %}
+
+        <!-- First page -->
+        <li class="page-item {% if todos.number == 1 %}active{% endif %}">
+            <a class="page-link" href="?page=1">1</a>
+        </li>
+
+        <!-- Leading ellipsis -->
+        {% if todos.number > 2 %}
+        <li class="page-item disabled">
+            <span class="page-link">…</span>
+        </li>
+        {% endif %}
+
+        <!-- Current page (only if not first or last) -->
+        {% if todos.number != 1 and todos.number != todos.paginator.num_pages %}
+        <li class="page-item active">
+            <span class="page-link">{{ todos.number }}</span>
+        </li>
+        {% endif %}
+
+        <!-- Trailing ellipsis -->
+        {% if todos.number < todos.paginator.num_pages|add:'-1' %}
+        <li class="page-item disabled">
+            <span class="page-link">…</span>
+        </li>
+        {% endif %}
+
+        <!-- Last page -->
+        {% if todos.paginator.num_pages > 1 %}
+        <li class="page-item {% if todos.number == todos.paginator.num_pages %}active{% endif %}">
+            <a class="page-link" href="?page={{ todos.paginator.num_pages }}">
+                {{ todos.paginator.num_pages }}
+            </a>
+        </li>
+        {% endif %}
+
+        <!-- Next -->
+        {% if todos.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ todos.next_page_number }}">&gt;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link">&gt;</span>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
+
+
 </div>
 
 <!-- IMAGE PREVIEW MODAL -->
